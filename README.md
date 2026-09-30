@@ -39,10 +39,12 @@
 
 *(※ 掲載している画像はシステム画面の一部抜粋です。全画面イメージや詳細な画面フローは [要件定義書・画面設計書](#-要件定義書画面設計書) よりご覧いただけます)*
 
-| カレンダー（予定・約束管理）<br><sub>※一部抜粋</sub> | 家計簿（収支管理 & AIアドバイス）<br><sub>※一部抜粋</sub> |
+*(※ 掲載している画像はシステム画面の一部抜粋です。全画面イメージや詳細な画面フローは設計資料よりご覧いただけます)*
+
+| 物資申請画面（利用者用）<br><sub>※一部抜粋</sub> | 物資配達画面（ボランティア用）<br><sub>※一部抜粋</sub> |
 | :---: | :---: |
-| <img src="readme_img/main1.png" width="360" alt="カレンダー画面"> | <img src="readme_img/main2.png" width="360" alt="家計簿画面"> |
-| 予定や用事、天気を月間カレンダーで一覧確認 | 日別収支、目標残高、Geminiによる個別アドバイス |
+| <img src="readme_img/物資申請画面.png" width="360" alt="カレンダー画面"> | <img src="readme_img/物資配達画面.png" width="360" alt="家計簿画面"> |
+| ジャンル別タブ・数量コントロールによる直感的な物資申請 | 未対応・対応中・完了・配送不可ごとのリアルタイム進捗管理 |
 
 ---
 
@@ -97,8 +99,8 @@ AWS上にデプロイしており、実際に動作をご確認いただけま�
 *(※別タブで開く場合は `Ctrl + クリック` / `Cmd + クリック` 推奨)*
 
 > **テスト用ログイン情報**  
-> * **ID**: `guest_user@example.com`  
-> * **パスワード**: `password123`
+> * **ID**: `管理者A`  
+> * **パスワード**: `1234`
 
 ---
 
@@ -119,32 +121,13 @@ AWS上にデプロイしており、実際に動作をご確認いただけま�
 * **Webコンテナ**: Apache Tomcat 11
 * **データベース**: PostgreSQL 18.1
   * ※ プログラムを実行する際に必要な環境として、データベースのテーブル生成用DDL（[`DDL.sql`](DDL.sql)）をプロジェクトルート直下に公開・同梱しています。
-* **Gemini APIキー**: Google AI Studio等で取得したAPIキー
 
 ### 2. データベースの構築（テーブル生成用DDLの実行）
 プログラムの実行に必要なテーブル群を生成するため、公開しているテーブル生成用DDL（[`DDL.sql`](DDL.sql)）を実行してください。
 
-1. PostgreSQLにて任意のデータベース（例: `yakusokun`）を作成します。
+1. PostgreSQLにて任意のデータベース（例: `misesu`）を作成します。
 2. 作成したデータベースに対して、プロジェクトルート直下の [`DDL.sql`](DDL.sql) を実行してテーブルを作成します。  
    *(※ A5:SQL Mk-2、pgAdmin、または `psql` コマンドライン等から実行可能です)*
-
-### 3. 環境変数の設定（Gemini APIキー）
-AIアドバイス機能を利用するためには、**Gemini APIキーの指定が必要**です。  
-OSまたは実行環境の環境変数 **`GEMINI_API_KEY`** に取得したAPIキーを登録してください。
-
-* **Windows (PowerShell)**:
-  ```powershell
-  # 永続設定（ユーザー環境変数）
-  [System.Environment]::SetEnvironmentVariable('GEMINI_API_KEY', 'your_gemini_api_key_here', 'User')
-
-  # または現在のセッションのみ一時設定
-  $env:GEMINI_API_KEY="your_gemini_api_key_here"
-  ```
-* **Linux / macOS (Bash / Zsh)**:
-  ```bash
-  export GEMINI_API_KEY="your_gemini_api_key_here"
-  ```
-> *(※ TomcatなどのAPサーバを起動する実行環境から本環境変数が参照できるように設定してください)*
 
 ### 4. データベース設定ファイルの作成
 セキュリティ保護のため設定ファイル自体はリポジトリ管理外となっています。  
